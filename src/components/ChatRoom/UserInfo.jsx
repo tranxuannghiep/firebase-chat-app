@@ -1,5 +1,6 @@
 import { Avatar, Button, Typography } from 'antd';
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { auth, db } from '../../firebase/config';
 
@@ -17,20 +18,14 @@ const WrapperStyled = styled.div`
 
 export default function UserInfo() {
 
-    useEffect(() => {
-        db.collection('users').onSnapshot((snapshot) => {
-            const data = snapshot.docs.map(doc => ({
-                ...doc.data(),
-                id: doc.id
-            }))
-        })
-    }, [])
+    const { displayName, photoURL } = useSelector((state) => state.authReducer.user);
+    console.log(displayName, photoURL)
 
     return (
         <WrapperStyled>
             <div>
-                <Avatar>A</Avatar>
-                <Typography.Text className='username'>ABC</Typography.Text>
+                <Avatar src={photoURL}>{photoURL ? '' : displayName?.charAt(0)?.toUpperCase()}</Avatar>
+                <Typography.Text className='username'>{displayName}</Typography.Text>
             </div>
             <Button ghost onClick={() => auth.signOut()}>Đăng xuất</Button>
         </WrapperStyled>
