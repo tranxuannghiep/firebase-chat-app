@@ -11,7 +11,7 @@ const useFirestore = (collection, condition) => {
         if (condition) {
             if (!condition.compareValue || !condition.compareValue.length) return;
 
-            collectionRef.where(condition.fieldName, condition.operator, condition.compareValue)
+            collectionRef = collectionRef.where(condition.fieldName, condition.operator, condition.compareValue)
         }
 
         const unsubcribe = collectionRef.onSnapshot((snapshot) => {
@@ -19,6 +19,7 @@ const useFirestore = (collection, condition) => {
                 ...doc.data(),
                 id: doc.id
             }))
+            console.log(documents)
             setDocumentList(documents)
         })
         return unsubcribe

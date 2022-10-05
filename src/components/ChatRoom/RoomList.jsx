@@ -30,7 +30,6 @@ const LinkStyled = styled(Typography.Link)`
 
 export default function RoomList() {
     const { uid } = useSelector((state) => state.authReducer.user);
-    console.log(uid)
     const roomsCondition = useMemo(() => {
         return { fieldName: 'members', operator: 'array-contains', compareValue: uid }
     }, [uid])
